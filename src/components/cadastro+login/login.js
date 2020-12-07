@@ -16,7 +16,7 @@ const Main = styled.main`
     a{margin-left:20px; font-size:20px;}
 `
 
-export const Login = e => {
+const Login = e => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -57,3 +57,5 @@ export const Login = e => {
     </Main>
     )
 }
+
+export default Login

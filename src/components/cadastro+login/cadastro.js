@@ -13,7 +13,7 @@ const Main = styled.main`
     
 `
 
-export const Cadastro = e =>{
+const Cadastro = e =>{
   const history = useHistory()
 
   const [form, setForm] = useState({email: '', password: '',username: ''})
@@ -24,3 +24,5 @@ export const Cadastro = e =>{
     </Main>
   )
 }
+
+export default Cadastro
