@@ -13,8 +13,6 @@ const Container = styled.div`
 
    #principais{width:80vw; height:80vh;border:1px solid black; display:flex; justify-content:space-between;}
         #principais > div{border:1px solid black;height:100%;width:45%; } 
-
-            
             .lanche{display:grid;
                 grid-template-columns:repeat(12, 1fr);
                 grid-template-rows:repeat(12, 1fr); 
@@ -24,6 +22,7 @@ const Container = styled.div`
             .lanche > p {width:100%;height:100%; grid-column:7/12;grid-row:5/9; font-size:20px;}
             .lanche > span{grid-column:7/12;grid-row:11/13; font-size:32px;}
             .lanche > button{grid-column:10/13;grid-row:11/13; }
+            
    #acompanhamentos{width:80vw; height:50vh;border:1px solid black;}
 `
 const Lanche = (props) => {
