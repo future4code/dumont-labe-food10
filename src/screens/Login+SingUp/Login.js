@@ -11,6 +11,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import logo from '../../assets/ig.png'
+import { useForm } from '../../hooks/useForm';
+import { useHistory } from 'react-router-dom';
+import { login } from '../../services/user';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -36,6 +39,21 @@ const useStyles = makeStyles((theme) => ({
 const Login = () => {
   const classes = useStyles();
 
+    const { form, onChange } = useForm({ email: "", password: ""});
+  const history = useHistory();
+
+  const onChangeForm = (event) => {
+    const { value, name } = event.target;
+
+    onChange(value, name);
+  }
+
+  const onSubmitForm = (event) => {
+    event.preventDefault();
+
+    login(form, history);
+  }
+
   return (
     <Container component="main" maxWidth="xs">
       
@@ -46,7 +64,7 @@ const Login = () => {
         <Typography component="h1" variant="h5">
           Login
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={onSubmitForm}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -57,6 +75,7 @@ const Login = () => {
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={onChangeForm}
           />
           <TextField
             variant="outlined"
@@ -68,6 +87,7 @@ const Login = () => {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={onChangeForm}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
