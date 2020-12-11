@@ -1,18 +1,40 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import Pedido from '../../../components/Pedido/Pedido';
 import { useForm } from '../../../hooks/useForm';
 import { useHistory } from 'react-router-dom';
 import IconeEditar from '../../../assets/edit.svg';
 import { Button, TextField, Typography } from '@material-ui/core';
-import { TextFieldStyled, ButtonStyled, FormContainer, EditarEnderecoStyled, TituloStyled } from './styles';
+import { TextFieldStyled, ButtonStyled, FormContainer, EditarEnderecoStyled, TituloStyled, HeaderStyled, EditarStyled } from './styles';
 import { editAddress } from '../../../services/user';
 import { goToBackPage } from '../../../routes/coordinator';
 import BackIcon from '../../../assets/back.svg';
+import GlobalStateContext from '../../../context/GlobalStateContext';
 
 
 const EditarEndereco = () => {
-  const { form, onChange } = useForm({ street: "", number: "", neighbourhood: "", city: "", state: "", complement: ""});
+  const { form, onChange, setForm } = useForm({ street: "", number: "", neighbourhood: "", city: "", state: "", complement: ""});
   const history = useHistory();
+
+  const { states, setters, requests } = useContext(GlobalStateContext);
+  useEffect(() => {
+    requests.getAddress();
+  }, [])
+
+  useEffect(() => {
+    // requests.getProfile();    
+
+    const address = states.stateAddress.address;
+    const neighbourhood = address && address.neighbourhood;
+    const number = address && address.number;
+    const city = address && address.city;
+    const complement = address && address.complement;
+    const state = address && address.state;
+    const street = address && address.street;
+
+    setForm({ street: street, number: number, neighbourhood: neighbourhood, city: city, state: state, complement: complement })
+    console.log(form)
+  }, [states])
+  console.log(states)
 
   const onChangeForm = (event) => {
     const { value, name } = event.target;
@@ -32,15 +54,14 @@ const EditarEndereco = () => {
   }
   
   return(
-      <EditarEnderecoStyled>
-          <div>
+      <div>
+          <HeaderStyled>
             <div onClick={onClickReturn}>
-              <img src={BackIcon} />
+              <EditarStyled src={BackIcon} />
             </div>
-            <TituloStyled>
-                <Typography variant="subtitle1">Editar</Typography>
-            </TituloStyled>
-          </div>
+            
+            <TituloStyled>Editar</TituloStyled>
+          </HeaderStyled>
 
             <FormContainer
                 onSubmit={onSubmitForm}
@@ -99,7 +120,7 @@ const EditarEndereco = () => {
                     Salvar
                 </ButtonStyled>
             </FormContainer>
-      </EditarEnderecoStyled>
+      </div>
   )
 }
 

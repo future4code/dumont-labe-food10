@@ -1,19 +1,42 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Pedido from '../../../components/Pedido/Pedido';
 import { useForm } from '../../../hooks/useForm';
 import { useHistory } from 'react-router-dom';
 import IconeEditar from '../../../assets/edit.svg';
 import { Button, TextField, Typography } from '@material-ui/core';
-import { TextFieldStyled, ButtonStyled, FormContainer } from './styles';
+import { TextFieldStyled, ButtonStyled, FormContainer, TituloStyled, HeaderStyled, EditarStyled  } from './styles';
 import { useProtectPage } from '../../../hooks/useProtectPage';
 import { editProfile } from '../../../services/user';
 import { goToBackPage } from '../../../routes/coordinator';
 import BackIcon from '../../../assets/back.svg';
+import GlobalStateContext from '../../../context/GlobalStateContext';
+import { useEffect } from 'react';
+import { useContext } from 'react';
 
 const EditarCadastro = () => {
   useProtectPage();
 
-  const { form, onChange } = useForm({ name: "", email: "", cpf: ""});
+  const { states, setters, requests } = useContext(GlobalStateContext);
+
+  // const { form, onChange, setForm } = useForm({ name: name, email: email, cpf: cpf });
+  const { form, onChange, setForm } = useForm({ name: "", email: "", cpf: "" });
+  // const { setForm } = useForm({ name: name, email: email, cpf: cpf });
+
+  useEffect(() => {
+    requests.getProfile();
+  }, [])
+
+  console.log(states)
+  useEffect(() => {
+    const user = states.stateProfile.user;
+    const name = user && user.name;
+    const email = user && user.email;
+    const cpf = user && user.cpf;
+
+    setForm({ name: name, email: email, cpf: cpf })
+    console.log(form)
+  }, [states])
+  
   const history = useHistory();
 
   const onChangeForm = (event) => {
@@ -34,14 +57,13 @@ const EditarCadastro = () => {
   
   return(
       <div>
-          <div>
+          <HeaderStyled>
             <div onClick={onClickReturn}>
-              <img src={BackIcon} />
+              <EditarStyled src={BackIcon} />
             </div>
-            <div>
-                <Typography variant="p">Editar</Typography>
-            </div>
-          </div>
+            
+            <TituloStyled>Editar</TituloStyled>
+          </HeaderStyled>
 
             <FormContainer
                 onSubmit={onSubmitForm}
@@ -50,7 +72,7 @@ const EditarCadastro = () => {
                 name="name"
                 variant="outlined"
                 label="Nome*"
-                value={form.nome}
+                value={form.name}
                 onChange={onChangeForm}
                 />
                 <TextFieldStyled
@@ -74,7 +96,7 @@ const EditarCadastro = () => {
                 type="submit"
                 color="primary"
                 >
-                    Salvar
+                  Salvar  
                 </ButtonStyled>
             </FormContainer>
       </div>

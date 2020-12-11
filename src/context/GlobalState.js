@@ -8,9 +8,14 @@ const GlobalState = (props) => {
     // const [ stateProfile, setProfile ] = useState([]);
     // const [ stateOrdersHistory, setOrdersHistory ] = useState([]);
 
-    const [ stateProfile, setProfile, getProfile ] = useRequestData(`${BASE_URL}/profile`, []);
     // const [ getProfile ] = useRequestData(`${BASE_URL}/orders/history`, []);
-    const [ stateOrdersHistory, setOrdersHistory, getOrdersHistory ] = useRequestData(`${BASE_URL}/orders/history`, []);
+    const getProfileRequest = "getProfile";
+    const getAddressRequest = "getAddress";
+    const getOrdersHistoryRequest = "getOrdersHistory";
+
+    const [ stateProfile, setProfile, getProfile ] = useRequestData(`${BASE_URL}/profile`, getProfileRequest, []);
+    const [ stateAddress, setAddress, getAddress ] = useRequestData(`${BASE_URL}/profile/address`, getAddressRequest, []);
+    const [ stateOrdersHistory, setOrdersHistory, getOrdersHistory ] = useRequestData(`${BASE_URL}/orders/history`, getOrdersHistoryRequest,[]);
 
     const token = localStorage.getItem("token");
     // console.log(stateProfile);
@@ -46,9 +51,9 @@ const GlobalState = (props) => {
     //     });
     // }
     
-    const states = { stateProfile, stateOrdersHistory }
-    const setters = { setProfile, setOrdersHistory }
-    const requests = { getProfile, getOrdersHistory }
+    const states = { stateProfile, stateOrdersHistory, stateAddress }
+    const setters = { setProfile, setOrdersHistory, setAddress }
+    const requests = { getProfile, getOrdersHistory, getAddress }
     // console.log(requests.getProfile);
     // console.log(states.stateProfile);
 

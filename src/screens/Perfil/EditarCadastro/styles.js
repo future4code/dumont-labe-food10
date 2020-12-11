@@ -8,19 +8,25 @@ export const PerfilStyled = styled.div`
     margin: 0;
 `
 
-export const TituloStyled = styled.h1`
-font-size: 16px;
-height: 18px;
-text-align: center;
+export const HeaderStyled = styled.div`
+display: flex;
 border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-padding: 5px 0 15px;
+align-items: center;
+padding: 0 20px;
+height: 50px;
+`
+
+export const TituloStyled = styled.div`
+font-size: 16px;
+text-align: center;
 font-weight: 500;
+position: fixed;
+    left: 50%;
+    transform: translate(-50%, 0);
 `
 
 export const NameStyled = styled.p`
-padding: 10px 10px 0 10px;
 margin: 0;
-height: 18px;
 `
 
 export const InfoStyled = styled.div`
@@ -49,7 +55,7 @@ padding: 0 0 7px 0;
 border-bottom: solid 1px #000000;
 `
 export const EditarStyled = styled.img`
-margin: 0 0 45px;
+display: block;
 `
 export const ButtonStyled = styled(Button)`
 text-transform: capitalize;
@@ -63,6 +69,7 @@ export const TextFieldStyled = styled(TextField)`
     }
 `
 export const FormContainer = styled.form`
-display: flex;
-flex-direction: column;
+margin: 30px 20px;
+display: grid;
+grid-gap: 20px;
 `

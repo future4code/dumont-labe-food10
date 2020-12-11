@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import Pedido from '../../../components/Pedido/Pedido';
 import { useForm } from '../../../hooks/useForm';
 import { useHistory } from 'react-router-dom';
-import { PerfilStyled, NameStyled, TituloStyled, InfoStyled, HistoricoStyled, EnderecoTituloStyled, EnderecoTextoStyled, EditarStyled } from './styles';
+import { PerfilStyled, NameStyled, TituloStyled, InfoStyled, HistoricoStyled, EnderecoTituloStyled, EnderecoTextoStyled, EditarStyled, HistoricoContainer } from './styles';
 import IconeEditar from '../../../assets/edit.svg';
 import { Button, TextField, Typography } from '@material-ui/core';
 import { TextFieldStyled, ButtonStyled, FormContainer, EditarEnderecoStyled } from '../EditarEndereco/styles';
@@ -13,6 +13,7 @@ import { BASE_URL } from '../../../constants/apiConstants';
 import { goToEditAddress, goToEditProfile, goToBackPage } from '../../../routes/coordinator';
 import GlobalState from '../../../context/GlobalState';
 import GlobalStateContext from '../../../context/GlobalStateContext';
+import { HeaderStyled } from '../EditarCadastro/styles';
 
 const Perfil = () => {
   useProtectPage();
@@ -23,7 +24,7 @@ const Perfil = () => {
   
   useEffect(() => {
     requests.getProfile();
-    // requests.getOrdersHistory();
+    requests.getOrdersHistory();
   }, []);
   // console.log(requests.getProfile);
 
@@ -60,13 +61,11 @@ const Perfil = () => {
   return(
     <PerfilStyled>
       <div>
-        <div
+        <HeaderStyled
         >
 
-          <div>
             <TituloStyled>Meu perfil</TituloStyled>
-          </div>
-        </div>
+        </HeaderStyled>
         
         <InfoStyled background="none">
           <div>
@@ -98,11 +97,11 @@ const Perfil = () => {
           <div>
             <EnderecoTituloStyled>
               Endereço cadastrado
-              {profile.user && profile.user.hasAddress && profile.user.address}
+              {profile.user  && profile.user.address}
             </EnderecoTituloStyled>
 
             <EnderecoTextoStyled>
-              {profile.user && profile.user.hasAddress && profile.user.address}
+              {profile.user  && profile.user.address}
             </EnderecoTextoStyled>
           </div>
 
@@ -113,7 +112,7 @@ const Perfil = () => {
            />
         </InfoStyled>
 
-        <div>
+        <HistoricoContainer>
           <HistoricoStyled>Histórico de pedidos</HistoricoStyled>
           
           { ordersHistory && ordersHistory.length ?
@@ -121,7 +120,7 @@ const Perfil = () => {
               :
               <p>Você não realizou nenhum pedido</p>
           }
-        </div>
+        </HistoricoContainer>
       </div>
 
       
