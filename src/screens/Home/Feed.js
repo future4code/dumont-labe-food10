@@ -7,7 +7,7 @@ import HomeLogo from '../../assets/active-home-logo.svg'
 import CartLogo from '../../assets/cart-logo.svg'
 import Avatar from '../../assets/avatar-logo.svg'
 import { useHistory } from 'react-router-dom'
-import { goToCarrinho, goToFeed, goToPerfil, goToSearchResults } from '../../routes/coordinator'
+import { goToCarrinho, goToFeed, goToProfile, goToSearchResults } from '../../routes/coordinator'
 import { Carousel, CarouselActiveItem, CarouselItem, LowerBar, LowerBarButton, RestaurantsContainer, SearchInput, Title, TitleContainer } from './styles'
 import { base_URL } from '../../constants/url/base_URL'
 
@@ -88,7 +88,7 @@ const Feeds = () => {
         <LowerBar>
           <LowerBarButton onClick={() => goToFeed(history)}><img src={HomeLogo} alt="Home Logo"/></LowerBarButton>
           <LowerBarButton onClick={() => goToCarrinho(history)}><img src={CartLogo} alt="Carrinho"/></LowerBarButton>
-          <LowerBarButton onClick={() => goToPerfil(history)}><img src={Avatar} alt="Home Logo"/></LowerBarButton>
+          <LowerBarButton onClick={() => goToProfile(history)}><img src={Avatar} alt="Home Logo"/></LowerBarButton>
         </LowerBar>
       </div>
     )
