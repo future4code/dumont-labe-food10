@@ -54,3 +54,16 @@ height: 50px;
 export const HistoricoContainer = styled.div`
 margin: 20px;
 `
+export const LowerBar = styled.div`
+  width: 100vw;
+  display: flex;
+  position: fixed;
+  bottom: 0px;
+  box-shadow: 0 0 0.5px 0 rgba(0, 0, 0, 0.25);
+`
+export const LowerBarButton = styled.button`
+  background: white;
+  border: none;
+  width: calc(100vw/3);
+  height: 49px;
+`

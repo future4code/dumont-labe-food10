@@ -29,7 +29,7 @@ const Router = () => {
           <Route exact path={"/cadastroEndereco"} component={CadastroEndereco}/>
 
                 {/*Home*/}
-              <Route exact path={"/feed"} component={Feed}/>
+              <Route exact path={["/", "/feed"]} component={Feed}/>
               <Route exact path={"/resultados"} component={SearchResults}/>
 
                 {/*Carrinho*/}

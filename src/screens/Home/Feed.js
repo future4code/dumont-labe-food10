@@ -10,12 +10,14 @@ import { useHistory } from 'react-router-dom'
 import { goToCarrinho, goToFeed, goToProfile, goToSearchResults } from '../../routes/coordinator'
 import { Carousel, CarouselActiveItem, CarouselItem, LowerBar, LowerBarButton, RestaurantsContainer, SearchInput, Title, TitleContainer } from './styles'
 import { base_URL } from '../../constants/url/base_URL'
+import { useProtectPage } from '../../hooks/useProtectPage'
 
 const Feeds = () => {
+  useProtectPage()
   const history = useHistory()
   const [restaurants, setRestaurants] = useState()
   const [category, setCategory] = useState("")
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Im1ScUlYb0J5c1U1RU9iYWVoUG9vIiwibmFtZSI6IkFsdmFybyIsImVtYWlsIjoiYWx2YXJvQGxhYmUubnUiLCJjcGYiOiIxMjMuNDU2Ljc4OS0xMSIsImhhc0FkZHJlc3MiOnRydWUsImFkZHJlc3MiOiJSLiBTw6NvIEpvcmdlLCAxLCA3MSAtIEVzcGVyYW7Dp2EiLCJpYXQiOjE2MDc2MjQ4NDd9.K8DCZ_D4UuOG_aDT4QRkgTcT4_ZfjAQsbNKiKoh40KM"
+  const token = localStorage.getItem("token")
 
   const getRestaurants = () => {
     axios.get(`${base_URL}/restaurants`, {

@@ -10,8 +10,10 @@ import { goToCarrinho, goToFeed, goToProfile } from '../../routes/coordinator'
 import { useHistory } from 'react-router-dom'
 import { ProductTitle } from '../Restaurante/styles'
 import { FormControl, FormControlLabel, Radio, RadioGroup } from '@material-ui/core'
+import { useProtectPage } from '../../hooks/useProtectPage'
 
 const CarrinhoItem = () => {
+  useProtectPage()
   const history = useHistory()
   const [adress, setAdress] = useState({})
   const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IkdxUW1VbDlCb0VKRGRRZDVjOXdUIiwibmFtZSI6IkFsdmFybyIsImVtYWlsIjoiYWx2YXJvQGxhYmUubnUiLCJjcGYiOiIxMjMuNDU2Ljc4OS0xMSIsImhhc0FkZHJlc3MiOnRydWUsImFkZHJlc3MiOiJSLiBTw6NvIEpvcmdlLCAxLCA3MSAtIEVzcGVyYW7Dp2EiLCJpYXQiOjE2MDc4ODk4ODN9.6I0Fc6pPvIpg96OtpUtHA7FL_zPHQRVKbAF136Ien-4"
