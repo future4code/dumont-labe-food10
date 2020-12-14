@@ -67,3 +67,4 @@ export const FormContainer = styled.form`
 margin: 30px 20px;
 display: grid;
 grid-gap: 20px;
+`

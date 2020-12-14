@@ -6,7 +6,7 @@ import Avatar from '../../assets/avatar-logo.svg'
 import { AdressContainer, AdressP, Title, TitleContainer } from './styles'
 import { base_URL } from '../../constants/url/base_URL'
 import { LowerBar, LowerBarButton } from '../Home/styles'
-import { goToCarrinho, goToFeed, goToPerfil } from '../../routes/coordinator'
+import { goToCarrinho, goToFeed, goToProfile } from '../../routes/coordinator'
 import { useHistory } from 'react-router-dom'
 import { ProductTitle } from '../Restaurante/styles'
 import { FormControl, FormControlLabel, Radio, RadioGroup } from '@material-ui/core'
@@ -53,7 +53,7 @@ const CarrinhoItem = () => {
       <LowerBar>
         <LowerBarButton onClick={() => goToFeed(history)}><img src={HomeLogo} alt="Home Logo"/></LowerBarButton>
         <LowerBarButton onClick={() => goToCarrinho(history)}><img src={CartLogo} alt="Carrinho"/></LowerBarButton>
-        <LowerBarButton onClick={() => goToPerfil(history)}><img src={Avatar} alt="Home Logo"/></LowerBarButton>
+        <LowerBarButton onClick={() => goToProfile(history)}><img src={Avatar} alt="Home Logo"/></LowerBarButton>
       </LowerBar>
     </div>
   )

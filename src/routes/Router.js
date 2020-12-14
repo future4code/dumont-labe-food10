@@ -3,8 +3,8 @@ import {BrowserRouter, Switch, Route} from 'react-router-dom'
 
 import TelaInicial from '../screens/Login+SingUp/TelaInicial'
 import Login from '../screens/Login+SingUp/Login'
-import SignUp from '../screens/Login+SingUp/SignUp'
-import CadastroEndereco from '../screens/Login+SingUp/CadastrarEndereço'
+import SignUp from '../screens/Login+SingUp/SingUp'
+import CadastroEndereco from '../screens/Login+SingUp/CadastratEndereco'
 
 import Feed from '../screens/Home/Feed'
 import SearchResults from '../screens/Home/SearchResults'
@@ -13,7 +13,7 @@ import Carrinho from '../screens/Carrinho/CarrinhoItem'
 
 import EditarCadastro from '../screens/Perfil/EditarCadastro/EditarCadastro'
 import EditarEndereco from '../screens/Perfil/EditarEndereco/EditarEndereco'
-import PerfilHistoricoVazio from '../screens/Perfil/PerfilHistoricoVazio/PerfilHistoricoVazio'
+import PerfilHistoricoVazio from '../screens/Perfil/PerfilHistoricoVazio'
 import Perfil from '../screens/Perfil/Perfil/Perfil'
 
 import Restaurante from '../screens/Restaurante/Restaurante'
