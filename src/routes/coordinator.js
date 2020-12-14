@@ -17,19 +17,13 @@ export const goToCadastroEndereco = (history) =>{
 export const goToFeed = (history) =>{
   history.push("/feed")
 }
-export const goToSearchNoResults = (history) =>{
-  history.push("/naoEncontrado")
-}
-export const goToSeachResults = (history) =>{
+export const goToSearchResults = (history) =>{
   history.push("/resultados")
 }
 
  //Carrinho
 export const goToCarrinho = (history) =>{
   history.push("/carrinho")
-}
-export const goToCarrinhoVazio = (history) =>{
-  history.push("/carrinhoVazio")
 }
 
   //Perfil 
@@ -47,6 +41,6 @@ export const goToCarrinhoVazio = (history) =>{
   }
 
 //Restaurante
-export const goToRestaurante= (history) =>{
-    history.push("/restaurente")
+export const goToRestaurante= (history, id) =>{
+    history.push(`/restaurante/${id}`)
   }

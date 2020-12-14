@@ -1,80 +1,81 @@
-import React from 'react'
-import styled from 'styled-components'
+import { Card, CardContent, CardMedia, Typography } from '@material-ui/core'
+import { ArrowBackIos } from '@material-ui/icons'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { useHistory, useParams } from 'react-router-dom'
+import { base_URL } from '../../constants/url/base_URL'
+import ProductsCard from './ProductsCard'
+import { CardDescription, CardDetails, ButtonDiv, Title, TitleContainer, ProductTitle } from './styles'
 
-const Container = styled.div`
-  width:100vw; height:100vh;
-  display:grid;
-  justify-items:center;
-   #lancheDoTopo{width:80vw; height:60vh;border:1px solid black;display:grid;
-   grid-template-columns:repeat(12, 1fr); grid-template-rows:repeat(12, 1fr);}
-   #lancheDoTopo > img{grid-area:1/4/9/10; width:100%;height:100%;}
-   #lancheDoTopo > h1{grid-area:9/5/9/10;}
-   #lancheDoTopo > div{grid-area:10/1/13/13;font-size:20px;}
+const Restaurante = () => {
+  const history = useHistory()
+  const pathParams = useParams()
+  const [details, setDetails] = useState({})
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IkdxUW1VbDlCb0VKRGRRZDVjOXdUIiwibmFtZSI6IkFsdmFybyIsImVtYWlsIjoiYWx2YXJvQGxhYmUubnUiLCJjcGYiOiIxMjMuNDU2Ljc4OS0xMSIsImhhc0FkZHJlc3MiOnRydWUsImFkZHJlc3MiOiJSLiBTw6NvIEpvcmdlLCAxLCA3MSAtIEVzcGVyYW7Dp2EiLCJpYXQiOjE2MDc4ODk4ODN9.6I0Fc6pPvIpg96OtpUtHA7FL_zPHQRVKbAF136Ien-4"
 
-   #principais{width:80vw; height:80vh;border:1px solid black; display:flex; justify-content:space-between;}
-        #principais > div{border:1px solid black;height:100%;width:45%; } 
+  const getRestaurantDetails = () => {
+    axios.get(`${base_URL}/restaurants/${pathParams.id}`, {
+      headers: {
+        auth: token
+      }
+    }).then(res => {
+      setDetails(res.data.restaurant)
+    }).catch(err => {
+      console.log(err)
+    })
+  }
 
-            
-            .lanche{display:grid;
-                grid-template-columns:repeat(12, 1fr);
-                grid-template-rows:repeat(12, 1fr); 
-                border:1px solid red; width:100%;height:25%;}
-            .lanche > img {width:100%;height:100%; grid-column:1/6;grid-row:1/13; }
-            .lanche > h1 {width:100%;height:100%; grid-column:6/12;grid-row:1/4; }
-            .lanche > p {width:100%;height:100%; grid-column:7/12;grid-row:5/9; font-size:20px;}
-            .lanche > span{grid-column:7/12;grid-row:11/13; font-size:32px;}
-            .lanche > button{grid-column:10/13;grid-row:11/13; }
-   #acompanhamentos{width:80vw; height:50vh;border:1px solid black;}
-`
-const Lanche = (props) => {
-    return(           
-                    <div className='lanche'>
-                        <img src={props.link}/>
-                        <h1>{props.name}</h1>  
-                        <p>{props.igredientes}</p>
-                        <span>{props.preco}</span>
-                        <button>Adicionar</button>
-                    </div>
-    )
-}
+  useEffect(() => {
+    getRestaurantDetails()
+  }, [])
 
-const Restaurante = e => {
-    
-    return(
-        <Container>
-            <div id='lancheDoTopo'>
-               <img src = {'https://i.pinimg.com/originals/60/9f/82/609f8221a97a4f91c9bc7c1ae3c9728b.jpg'}/>
-               <h1>Combo detona figado, inflama intestino</h1>
-               <div>
-                    <p>20 - 40 min</p>
-                    <p>frete:R$10,00</p>
-                    <p>planeta terra,america do sul, brasil</p>
-               </div>
-            </div>
-               
-            <div id='principais'>
-                <div id='area1'>
-                    <Lanche/>
-                    <Lanche/>
-                    <Lanche/>
-                    <Lanche/>
-                </div>
-
-                <div id='area2'>
-                    <Lanche/>
-                    <Lanche/>
-                    <Lanche/>
-                    <Lanche/>
-                </div>
-
-                
-                              
-            </div>
-
-            
-        </Container>
-        
-    )
+  return(
+    <div>
+      <TitleContainer>
+        <ButtonDiv>
+          <ArrowBackIos onClick={() => history.goBack()}/>
+        </ButtonDiv>
+        <Title>Restaurante</Title>
+        <ButtonDiv></ButtonDiv>
+      </TitleContainer>
+      <Card style={{margin: "4px 16px"}}>
+        <CardMedia 
+          component="img"
+          alt={details.name}
+          image={details.logoUrl}
+          title={details.name}
+        />
+        <CardContent>
+          <CardDescription>
+            <Typography style={{color: "#5cb646"}}>{details.name}</Typography>
+            <Typography style={{color: "#b8b8b8"}}>{details.category}</Typography>
+          </CardDescription>
+          <CardDetails>
+            <Typography style={{color: "#b8b8b8"}}>{details.deliveryTime} min</Typography>
+            {details.shipping && 
+              <Typography style={{color: "#b8b8b8"}}>Frete {details.shipping.toLocaleString('pt-BR',{style: 'currency', currency:'BRL'})}</Typography>
+            }
+          </CardDetails>
+          <CardDescription>
+            <Typography style={{color: "#b8b8b8"}}>{details.address}</Typography>
+          </CardDescription>
+        </CardContent>
+      </Card>
+      <ProductTitle>
+        <p>Produtos</p>
+      </ProductTitle>
+      {details.products &&
+        details.products.map(product => {
+          return <ProductsCard 
+                    key={product.id}
+                    name={product.name}
+                    image={product.photoUrl}
+                    description={product.description}
+                    price={product.price}/>
+        })
+      }
+    </div>
+  )
 } 
 
 export default Restaurante
