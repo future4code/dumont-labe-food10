@@ -1,5 +1,11 @@
 ### FutureEats
 
+### Integrantes
+- Álvaro Joaquim de Faria Barros Júnior
+- Daniel Henrique Coelho Rezende
+- Diego dos Santos
+- Edmilson Ferreira
+
 ### O que funciona
 - Login
 - Signin
