@@ -1,28 +1,57 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Pedido from '../../../components/Pedido/Pedido';
-import { useForm } from '../../../hooks/useForm';
 import { useHistory } from 'react-router-dom';
-import { PerfilStyled, NameStyled, TituloStyled, InfoStyled, HistoricoStyled, EnderecoTituloStyled, EnderecoTextoStyled, EditarStyled, HistoricoContainer } from './styles';
+import { PerfilStyled, NameStyled, TituloStyled, InfoStyled, HistoricoStyled, EnderecoTituloStyled, EnderecoTextoStyled, EditarStyled, HistoricoContainer, LowerBar, LowerBarButton } from './styles';
 import IconeEditar from '../../../assets/edit.svg';
-import { Button, TextField, Typography } from '@material-ui/core';
-import { TextFieldStyled, ButtonStyled, FormContainer, EditarEnderecoStyled } from '../EditarEndereco/styles';
-import { signup } from '../../../services/user';
-import { useRequestData } from '../../../hooks/useRequestData';
 import { useProtectPage } from '../../../hooks/useProtectPage';
-import { BASE_URL } from '../../../constants/apiConstants';
-import { goToEditAddress, goToEditProfile, goToBackPage } from '../../../routes/coordinator';
-import GlobalState from '../../../context/GlobalState';
+import { goToEditAddress, goToEditProfile, goToFeed, goToCarrinho, goToProfile } from '../../../routes/coordinator';
 import GlobalStateContext from '../../../context/GlobalStateContext';
 import { HeaderStyled } from '../EditarCadastro/styles';
+import { BASE_URL } from '../../../constants/apiConstants';
+import axios from 'axios';
+import HomeLogo from '../../../assets/home-logo.svg'
+import CartLogo from '../../../assets/cart-logo.svg'
+import Avatar from '../../../assets/active-avatar-logo.svg'
 
 const Perfil = () => {
   useProtectPage();
-  const { states, setters, requests } = useContext(GlobalStateContext);
-  // const { form, onChange } = useForm({ name: "", email: "", cpf: "", password: ""});
+  // const { states, setters, requests } = useContext(GlobalStateContext);
   const history = useHistory();
+  const [profile, setProfile] = useState({})
+  const [ordersHistory, setOrdersHistory] = useState({})
+  const token = localStorage.getItem("token");
+
+  const getProfile = () => {
+    axios.get(`${BASE_URL}/profile`, {
+      headers: {
+        auth: token
+      }
+    })
+    .then(response => {
+      setProfile(response.data);
+    })
+    .catch(error => {
+      console.log(error.message)
+    });
+  }
+
+  const getOrdersHistory = () => {
+    axios.get(`${BASE_URL}/orders/history`, {
+      headers: {
+        auth: token
+      }
+    })
+    .then(response => {
+      setOrdersHistory(response.data);
+    })
+    .catch(error => {
+      console.log(error.message)
+    });
+  }
 
   useEffect(() => {
-    requests.getProfile();
+    getProfile();
+    getOrdersHistory()
   }, []);
 
   const onClickEditProfile = () => {
@@ -31,9 +60,7 @@ const Perfil = () => {
   const onClickEditAddress = () => {
     goToEditAddress(history);
   }
-  const profile = states.stateProfile;
-  // console.log(profile)
-  const ordersHistory = states.ordersHistory;
+
   return(
     <PerfilStyled>
       <div>
@@ -92,7 +119,13 @@ const Perfil = () => {
           }
         </HistoricoContainer>
       </div>
+      <LowerBar>
+          <LowerBarButton onClick={() => goToFeed(history)}><img src={HomeLogo} alt="Home Logo"/></LowerBarButton>
+          <LowerBarButton onClick={() => goToCarrinho(history)}><img src={CartLogo} alt="Carrinho"/></LowerBarButton>
+          <LowerBarButton onClick={() => goToProfile(history)}><img src={Avatar} alt="Avatar Logo"/></LowerBarButton>
+        </LowerBar>
     </PerfilStyled>
+    
   )
 }
 export default Perfil;

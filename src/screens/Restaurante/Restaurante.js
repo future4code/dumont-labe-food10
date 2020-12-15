@@ -1,17 +1,20 @@
 import { Card, CardContent, CardMedia, Typography } from '@material-ui/core'
 import { ArrowBackIos } from '@material-ui/icons'
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { base_URL } from '../../constants/url/base_URL'
+import GlobalStateContext from '../../context/GlobalStateContext'
+import { useProtectPage } from '../../hooks/useProtectPage'
 import ProductsCard from './ProductsCard'
 import { CardDescription, CardDetails, ButtonDiv, Title, TitleContainer, ProductTitle } from './styles'
 
 const Restaurante = () => {
+  useProtectPage()
   const history = useHistory()
   const pathParams = useParams()
   const [details, setDetails] = useState({})
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IkdxUW1VbDlCb0VKRGRRZDVjOXdUIiwibmFtZSI6IkFsdmFybyIsImVtYWlsIjoiYWx2YXJvQGxhYmUubnUiLCJjcGYiOiIxMjMuNDU2Ljc4OS0xMSIsImhhc0FkZHJlc3MiOnRydWUsImFkZHJlc3MiOiJSLiBTw6NvIEpvcmdlLCAxLCA3MSAtIEVzcGVyYW7Dp2EiLCJpYXQiOjE2MDc4ODk4ODN9.6I0Fc6pPvIpg96OtpUtHA7FL_zPHQRVKbAF136Ien-4"
+  const token = localStorage.getItem("token")
 
   const getRestaurantDetails = () => {
     axios.get(`${base_URL}/restaurants/${pathParams.id}`, {

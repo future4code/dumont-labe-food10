@@ -1,6 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
-import { BASE_URL } from '../constants/apiConstants';
 
 export function useRequestData(url, request, initialState) {
   const [ stateProfile, setProfile ] = useState(initialState);
@@ -68,10 +67,8 @@ export function useRequestData(url, request, initialState) {
   switch(request) {
     case "getOrdersHistory":
       return [stateProfile, setProfile, getProfile];
-      break;
     case "getAddress":
       return [stateAddress, setAddress, getAddress];
-      break;
     default:
     return [stateOrdersHistory, setOrdersHistory, getOrdersHistory];
   }

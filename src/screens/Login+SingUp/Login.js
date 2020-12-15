@@ -1,6 +1,4 @@
-
 import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -11,6 +9,10 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import logo from '../../assets/ig.png'
+import { useForm } from '../../hooks/useForm';
+import { useHistory } from 'react-router-dom';
+import { login } from '../../services/user';
+import {useUnprotectPage} from '../../hooks/useUnprotectPage'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -32,21 +34,34 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
-
 const Login = () => {
+  useUnprotectPage()
   const classes = useStyles();
+
+    const { form, onChange } = useForm({ email: "", password: ""});
+  const history = useHistory();
+
+  const onChangeForm = (event) => {
+    const { value, name } = event.target;
+
+    onChange(value, name);
+  }
+
+  const onSubmitForm = (event) => {
+    event.preventDefault();
+
+    login(form, history);
+  }
 
   return (
     <Container component="main" maxWidth="xs">
-      
+
       <div className={classes.paper}>
-        {/* <Avatar className={classes.avatar}>
-        </Avatar> */}
           <img src={logo}/>
         <Typography component="h1" variant="h5">
           Login
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={onSubmitForm}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -57,6 +72,7 @@ const Login = () => {
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={onChangeForm}
           />
           <TextField
             variant="outlined"
@@ -68,6 +84,7 @@ const Login = () => {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={onChangeForm}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}

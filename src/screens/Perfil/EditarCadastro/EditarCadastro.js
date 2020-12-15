@@ -1,9 +1,6 @@
-import React, { useCallback } from 'react';
-import Pedido from '../../../components/Pedido/Pedido';
+import React, { useState } from 'react';
 import { useForm } from '../../../hooks/useForm';
 import { useHistory } from 'react-router-dom';
-import IconeEditar from '../../../assets/edit.svg';
-import { Button, TextField, Typography } from '@material-ui/core';
 import { TextFieldStyled, ButtonStyled, FormContainer, TituloStyled, HeaderStyled, EditarStyled  } from './styles';
 import { useProtectPage } from '../../../hooks/useProtectPage';
 import { editProfile } from '../../../services/user';
@@ -12,28 +9,40 @@ import BackIcon from '../../../assets/back.svg';
 import GlobalStateContext from '../../../context/GlobalStateContext';
 import { useEffect } from 'react';
 import { useContext } from 'react';
+import { BASE_URL } from '../../../constants/apiConstants';
+import axios from 'axios';
 
 const EditarCadastro = () => {
   useProtectPage();
-
-  const { states, setters, requests } = useContext(GlobalStateContext);
-
+  const [profile, setProfile] = useState({})
+  const token = localStorage.getItem("token");
   const { form, onChange, setForm } = useForm({ name: "", email: "", cpf: "" });
 
+  const getProfile = () => {
+    axios.get(`${BASE_URL}/profile`, {
+      headers: {
+        auth: token
+      }
+    })
+    .then(response => {
+      setProfile(response.data);
+    })
+    .catch(error => {
+      console.log(error.message)
+    });
+  }
+
   useEffect(() => {
-    requests.getProfile();
+    getProfile();
   }, [])
 
-  console.log(states)
   useEffect(() => {
-    const user = states.stateProfile.user;
-    const name = user && user.name;
-    const email = user && user.email;
-    const cpf = user && user.cpf;
+    const name = profile && profile.name;
+    const email = profile && profile.email;
+    const cpf = profile && profile.cpf;
 
     setForm({ name: name, email: email, cpf: cpf })
-    console.log(form)
-  }, [states])
+  }, [profile])
 
   const history = useHistory();
 

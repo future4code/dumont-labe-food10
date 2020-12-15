@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import Pedido from '../../../components/Pedido/Pedido';
 import { useForm } from '../../../hooks/useForm';
 import { useHistory } from 'react-router-dom';
@@ -9,20 +9,36 @@ import { editAddress } from '../../../services/user';
 import { goToBackPage } from '../../../routes/coordinator';
 import BackIcon from '../../../assets/back.svg';
 import GlobalStateContext from '../../../context/GlobalStateContext';
+import { BASE_URL } from '../../../constants/apiConstants';
+import axios from 'axios';
 
 
 const EditarEndereco = () => {
   const { form, onChange, setForm } = useForm({ street: "", number: "", neighbourhood: "", city: "", state: "", complement: ""});
   const history = useHistory();
+  const [address, setAddress] = useState({})
 
-  const { states, setters, requests } = useContext(GlobalStateContext);
+  const token = localStorage.getItem("token");
+
+  const getAddress = () => {
+    axios.get(`${BASE_URL}/profile/address`, {
+      headers: {
+        auth: token
+      }
+    })
+    .then(response => {
+      setAddress(response.data);
+    })
+    .catch(error => {
+      console.log(error.message)
+    });
+  }
+
   useEffect(() => {
-    requests.getAddress();
+    getAddress();
   }, [])
 
   useEffect(() => { 
-
-    const address = states.stateAddress.address;
     const neighbourhood = address && address.neighbourhood;
     const number = address && address.number;
     const city = address && address.city;
@@ -32,8 +48,7 @@ const EditarEndereco = () => {
 
     setForm({ street: street, number: number, neighbourhood: neighbourhood, city: city, state: state, complement: complement })
     console.log(form)
-  }, [states])
-  console.log(states)
+  }, [address])
 
   const onChangeForm = (event) => {
     const { value, name } = event.target;
@@ -42,7 +57,6 @@ const EditarEndereco = () => {
   }
   const onSubmitForm = (event) => {
     event.preventDefault();
-    console.log(form)
     editAddress(form, history);
   }
   const onClickReturn = () => {

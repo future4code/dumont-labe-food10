@@ -1,6 +1,6 @@
 import { BASE_URL } from '../constants/apiConstants';
 import axios from 'axios';
-import { goToEditAddress, goToProfile } from '../routes/coordinator';
+import { goToBackPage, goToEditAddress, goToFeed, goToProfile } from '../routes/coordinator';
 
 const token = localStorage.getItem("token");
 
@@ -8,7 +8,7 @@ export const login = (body, history) => {
     axios.post(`${BASE_URL}/login`, body)
     .then(response => {
         localStorage.setItem("token", response.data.token);
-        goToProfile(history);
+        goToFeed(history);
     })
     .catch(error => {
         console.log(error.message);
@@ -39,7 +39,7 @@ export const editAddress = (body, history) => {
         console.log(response)
         console.log(body)
         localStorage.setItem("token", response.data.token)
-        goToProfile(history);
+        goToBackPage(history);
     })
     .catch(error => {
         console.log(error.message);

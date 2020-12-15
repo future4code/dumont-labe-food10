@@ -15,6 +15,8 @@ const CardDescription = styled.div`
 
 const FeedCard = (props) => {
   const history = useHistory()
+  
+
   return(
     <Card style={{margin: "4px 16px"}} onClick={() => goToRestaurante(history, props.id)}>
       <CardActionArea>
